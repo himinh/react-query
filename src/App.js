@@ -9,7 +9,8 @@ function App() {
       return pokeApi.getAll()
     },
     {
-      refetchOnWindowFocus: false,
+      // refetchOnWindowFocus: false,
+      staleTime: Infinity,
     }
   )
   console.log({ queryInfo })
