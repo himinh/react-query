@@ -12,12 +12,14 @@ const usePokemon = pokemon => {
     },
     {
       enabled: Boolean(pokemon),
+      retry: false,
     }
   )
 }
 
 const PokemonSearch = ({ pokemon }) => {
   const queryInfo = usePokemon(pokemon)
+  console.log({ queryInfo })
   if (queryInfo.isLoading) return <h2>Loading...</h2>
   if (queryInfo.isError)
     return <h2 style={{ color: 'red' }}>{queryInfo.error.message}</h2>
