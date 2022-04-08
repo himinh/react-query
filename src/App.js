@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { pokeApi } from './api/pokeApi'
-function App() {
+
+const Pokemon = () => {
   const queryInfo = useQuery(
     'pokemon',
     async () => {
@@ -10,10 +12,10 @@ function App() {
     },
     {
       // refetchOnWindowFocus: false,
-      staleTime: Infinity,
+      // staleTime: 5000,
+      cacheTime: 5000, // Remove cache after component unmount 5s
     }
   )
-  console.log({ queryInfo })
 
   if (queryInfo.isLoading) return <h2>Loading...</h2>
   if (queryInfo.isError)
@@ -21,10 +23,20 @@ function App() {
 
   return (
     <>
-      <h1>React query</h1>
       {queryInfo.data?.results.map(poke => {
         return <div key={poke.name}>{poke.name}</div>
       })}
+    </>
+  )
+}
+
+function App() {
+  const [toggle, setToggle] = useState(false)
+  return (
+    <>
+      <h1>React query</h1>
+      <button onClick={() => setToggle(!toggle)}>Show Pokemon</button>
+      {toggle && <Pokemon />}
       <ReactQueryDevtools />
     </>
   )
