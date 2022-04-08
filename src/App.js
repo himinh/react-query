@@ -3,11 +3,18 @@ import { useQuery } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { berryApi, pokeApi } from './api/pokeApi'
 
-const usePokemon = pokemon =>
-  useQuery(pokemon, async () => {
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    return pokeApi.getOne(pokemon)
-  })
+const usePokemon = pokemon => {
+  return useQuery(
+    pokemon,
+    async () => {
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      return pokeApi.getOne(pokemon)
+    },
+    {
+      enabled: Boolean(pokemon),
+    }
+  )
+}
 
 const PokemonSearch = ({ pokemon }) => {
   const queryInfo = usePokemon(pokemon)
