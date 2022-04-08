@@ -24,6 +24,7 @@ return <h2 style={{ color: 'red' }}>{queryInfo.error.message}</h2>
 
 return (
 <>
+
 <div>Show the pokemon sprite</div>
 {queryInfo.data?.sprites ? (
 <img src={queryInfo.data?.sprites?.front_default} alt='pokemon' />
@@ -38,6 +39,7 @@ function App() {
 const [value, setValue] = useState('')
 return (
 <>
+
 <h1>React query</h1>
 <input
 type='text'
