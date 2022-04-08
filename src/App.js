@@ -5,7 +5,7 @@ import { berryApi, pokeApi } from './api/pokeApi'
 
 const usePokemon = pokemon => {
   return useQuery(
-    pokemon,
+    ['pokemon', pokemon],
     async () => {
       await new Promise(resolve => setTimeout(resolve, 1000))
       return pokeApi.getOne(pokemon)
@@ -18,7 +18,6 @@ const usePokemon = pokemon => {
 
 const PokemonSearch = ({ pokemon }) => {
   const queryInfo = usePokemon(pokemon)
-  console.log({ queryInfo })
   if (queryInfo.isLoading) return <h2>Loading...</h2>
   if (queryInfo.isError)
     return <h2 style={{ color: 'red' }}>{queryInfo.error.message}</h2>
