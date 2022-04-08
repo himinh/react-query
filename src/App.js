@@ -1,64 +1,45 @@
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { berryApi, pokeApi } from './api/pokeApi'
 
-const usePokemon = () =>
-  useQuery('pokemon', async () => {
+const usePokemon = pokemon =>
+  useQuery(pokemon, async () => {
     await new Promise(resolve => setTimeout(resolve, 1000))
-    return pokeApi.getAll()
+    return pokeApi.getOne(pokemon)
   })
 
-const Pokemon = () => {
-  const queryInfo = usePokemon()
+const PokemonSearch = ({ pokemon }) => {
+  const queryInfo = usePokemon(pokemon)
+  console.log({ queryInfo })
   if (queryInfo.isLoading) return <h2>Loading...</h2>
   if (queryInfo.isError)
     return <h2 style={{ color: 'red' }}>{queryInfo.error.message}</h2>
 
   return (
     <>
-      {queryInfo.data?.results.map(poke => {
-        return <div key={poke.name}>{poke.name}</div>
-      })}
-    </>
-  )
-}
-
-const Count = () => {
-  const queryInfo = usePokemon()
-  return <h3>You are looking at {queryInfo.data?.results.length} pokemons.</h3>
-}
-
-const useBerries = () =>
-  useQuery('berries', async () => {
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    return berryApi.getAll()
-  })
-
-const Berries = () => {
-  const queryInfo = useBerries()
-  if (queryInfo.isLoading) return <h2>Loading...</h2>
-  if (queryInfo.isError)
-    return <h2 style={{ color: 'red' }}>{queryInfo.error.message}</h2>
-
-  return (
-    <>
-      {queryInfo.data?.results.map(poke => {
-        return <div key={poke.name}>{poke.name}</div>
-      })}
+      <div>Show the pokemon sprite</div>
+      {queryInfo.data?.sprites ? (
+        <img src={queryInfo.data?.sprites?.front_default} alt='pokemon' />
+      ) : (
+        <p>Pokemon not found.</p>
+      )}
     </>
   )
 }
 
 function App() {
+  const [value, setValue] = useState('')
   return (
     <>
       <h1>React query</h1>
+      <input
+        type='text'
+        value={value}
+        onChange={e => setValue(e.target.value)}
+      />
       <h4 style={{ color: 'blue' }}>Pokemon</h4>
-      <Count />
-      <Pokemon />
-
-      <h4 style={{ color: 'cyan' }}>Berries</h4>
-      <Berries />
+      <PokemonSearch pokemon={value} />
       <ReactQueryDevtools />
     </>
   )

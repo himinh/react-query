@@ -9,6 +9,12 @@ export const pokeApi = {
       .then(({ data }) => data)
       .catch(error => error?.response?.data)
   },
+  getOne(pokeId) {
+    return axios
+      .get(`${pokeapi_url}/${pokeId}`)
+      .then(({ data }) => data)
+      .catch(error => error?.response?.data)
+  },
 }
 
 export const berryApi = {
