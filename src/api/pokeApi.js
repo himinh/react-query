@@ -4,6 +4,18 @@ export const berryapi_url = 'https://pokeapi.co/api/v2/berry'
 
 export const pokeApi = {
   getAll() {
-    return axios.get(pokeapi_url)
+    return axios
+      .get(pokeapi_url)
+      .then(({ data }) => data)
+      .catch(error => error?.response?.data)
+  },
+}
+
+export const berryApi = {
+  getAll() {
+    return axios
+      .get(berryapi_url)
+      .then(({ data }) => data)
+      .catch(error => error?.response?.data)
   },
 }
